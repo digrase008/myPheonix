@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_pheonix/MyAppBar.dart';
+import 'package:my_pheonix/custom_drawer.dart';
 import 'SecondRowContent.dart';
 // import 'Utility/AppColor.dart';
 
@@ -103,6 +104,7 @@ class _LandingPageState extends State<LandingPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: const MyAppBar(),
+        drawer: const CustomDrawer(),
         body: Column(
           children: [
             // Your other widgets here...

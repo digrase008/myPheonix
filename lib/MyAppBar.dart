@@ -12,17 +12,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: const Color(0xFF072F88),
       elevation: 0,
+      automaticallyImplyLeading: false,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
+          Builder(
+            // Add Builder to get correct Scaffold context
+            builder: (context) => IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Opens drawer
+              },
             ),
-            onPressed: () {
-              // Implement action for the home button here
-            },
           ),
           const CustomDropdownButton(),
         ],

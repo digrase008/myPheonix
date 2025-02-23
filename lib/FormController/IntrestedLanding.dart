@@ -5,6 +5,7 @@ import 'package:my_pheonix/MyAppBar.dart';
 import 'package:my_pheonix/Utility/CustomerIDStorage.dart';
 import 'package:my_pheonix/Utility/DatabaseHelper.dart';
 import 'package:my_pheonix/Utility/DatabaseManager.dart';
+import 'package:my_pheonix/custom_drawer.dart';
 import 'package:my_pheonix/landing_page.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -38,6 +39,7 @@ class _IntrestedLandingState extends State<IntrestedLanding> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
+      drawer: const CustomDrawer(),
       backgroundColor: AppColors.appGreyColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
