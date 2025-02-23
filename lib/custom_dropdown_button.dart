@@ -5,28 +5,12 @@ import 'package:my_pheonix/login.dart';
 class CustomDropdownButton extends StatelessWidget {
   const CustomDropdownButton({super.key});
 
-  void _logout(BuildContext context) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => const LoginForm(),
-      ),
-      (route) => false,
-    );
+  void _los(BuildContext context) {
+    // Navigator.pop(context);
   }
 
-  void _clearData(BuildContext context) async {
-    try {
-      DatabaseHelper helper = DatabaseHelper.instance;
-      await helper.clearAllTables();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('All data cleared successfully.'),
-        ),
-      );
-    } catch (e) {
-      print('Error while clearing data: $e');
-    }
+  void _lms(BuildContext context) async {
+    // Navigator.pop(context);
   }
 
   @override
@@ -38,20 +22,20 @@ class CustomDropdownButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       onSelected: (value) {
-        if (value == 'logout') {
-          _logout(context);
-        } else if (value == 'clearData') {
-          _clearData(context);
+        if (value == 'LOS') {
+          _los(context);
+        } else if (value == 'LMS') {
+          _lms(context);
         }
       },
       itemBuilder: (BuildContext context) => [
         const PopupMenuItem(
-          value: 'logout',
-          child: Text('Logout'),
+          value: 'LOS',
+          child: Text('LOS'),
         ),
         const PopupMenuItem(
-          value: 'clearData',
-          child: Text('Clear All Data'),
+          value: 'LMS',
+          child: Text('LMS'),
         ),
       ],
       child: Container(

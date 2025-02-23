@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_pheonix/Utility/DatabaseHelper.dart';
+import 'package:my_pheonix/login.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -9,6 +11,27 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   Map<String, bool> expandedMenu = {}; // Stores open/closed state of submenus
+
+  void _signOut(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginForm()),
+      (route) => false,
+    );
+  }
+
+  void _clearData(BuildContext context) async {
+    try {
+      Navigator.pop(context);
+      DatabaseHelper helper = DatabaseHelper.instance;
+      await helper.clearAllTables();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('All data cleared successfully.')),
+      );
+    } catch (e) {
+      print('Error while clearing data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +58,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   icon: Icons.settings,
                   subMenu: ['Account', 'Privacy', 'Notifications'],
                 ),
+                const Divider(color: Colors.white54), // Divider line
                 _buildMenuItem(
-                  title: 'Logout',
+                  title: 'Clear All Data',
+                  icon: Icons.delete,
+                  onTap: () => _clearData(context),
+                ),
+                _buildMenuItem(
+                  title: 'Sign Out',
                   icon: Icons.logout,
-                  onTap: () {
-                    Navigator.pop(context); // Close drawer
-                    // Implement logout logic
-                  },
+                  onTap: () => _signOut(context),
                 ),
               ],
             ),
@@ -53,16 +79,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   Widget _buildProfileHeader() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.blue.shade900, // change approprite color properties
+        color: Colors.blue.shade900, // Adjusted color properties
       ),
       child: Row(
         children: [
           const CircleAvatar(
             radius: 30,
-            backgroundImage: AssetImage(
-                'assets/profile_pic.png'), // Mark location accordingky
+            backgroundImage:
+                AssetImage('assets/profile_pic.png'), // Profile image
           ),
           const SizedBox(width: 12),
           const Column(
@@ -86,10 +112,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  Widget _buildMenuItem(
-      {required String title,
-      required IconData icon,
-      required Function() onTap}) {
+  Widget _buildMenuItem({
+    required String title,
+    required IconData icon,
+    required Function() onTap,
+  }) {
     return ListTile(
       leading: Icon(icon, color: Colors.white),
       title: Text(
@@ -100,10 +127,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  Widget _buildExpandableMenuItem(
-      {required String title,
-      required IconData icon,
-      required List<String> subMenu}) {
+  Widget _buildExpandableMenuItem({
+    required String title,
+    required IconData icon,
+    required List<String> subMenu,
+  }) {
     bool isExpanded = expandedMenu[title] ?? false;
 
     return Column(
