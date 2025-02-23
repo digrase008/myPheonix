@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_pheonix/Utility/AppColor.dart';
 
-
 Widget buildDropdownField(
   String title,
   List<String> options,
@@ -23,7 +22,7 @@ Widget buildDropdownField(
         Row(
           children: [
             Text(
-              '$title',
+              title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -52,7 +51,8 @@ Widget buildDropdownField(
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: DropdownButtonFormField<String>(
-                key: dropdownKey, // Assign the GlobalKey to the DropdownButtonFormField
+                key:
+                    dropdownKey, // Assign the GlobalKey to the DropdownButtonFormField
                 value: dropdownValue,
                 items: options.map((String value) {
                   return DropdownMenuItem<String>(

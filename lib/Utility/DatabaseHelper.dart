@@ -3,8 +3,8 @@ import 'package:path/path.dart';
 
 class DatabaseHelper {
   static Database? _database;
-  static final String dbName = 'your_database.db';
-  static final int dbVersion = 1;
+  static const String dbName = 'your_database.db';
+  static const int dbVersion = 1;
 
   // Private constructor to prevent instantiation
   DatabaseHelper._();
@@ -52,26 +52,24 @@ class DatabaseHelper {
     return await db.query('users');
   }
 
-Future<void> clearAllTables() async {
-  Database db = await database;
+  Future<void> clearAllTables() async {
+    Database db = await database;
 
-  // List all table names you want to clear
-  List<String> tables = [
-    'PersonalDetails',
-    'FamilyDetails',
-    'LoanDetails',
-    'BusinessDetails',
-    'AddressDetails',
-    'PropertyDetails',
-    'BankingDetails',
-    'InsuranceDetails'
-  ]; // Add other table names
+    // List all table names you want to clear
+    List<String> tables = [
+      'PersonalDetails',
+      'FamilyDetails',
+      'LoanDetails',
+      'BusinessDetails',
+      'AddressDetails',
+      'PropertyDetails',
+      'BankingDetails',
+      'InsuranceDetails'
+    ]; // Add other table names
 
-  for (String table in tables) {
-    // await db.execute('DROP TABLE IF EXISTS $table');
-    await db.delete(table);
+    for (String table in tables) {
+      // await db.execute('DROP TABLE IF EXISTS $table');
+      await db.delete(table);
+    }
   }
-}
-
-
 }

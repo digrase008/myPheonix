@@ -14,7 +14,6 @@ import 'FormController/InsuaranceQues.dart';
 import 'FormController/Documents.dart';
 import 'FormController/KYCDetails/KYCDetailsMain.dart';
 
-
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
 
@@ -25,31 +24,31 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   String selectedContent = '';
   late Widget currentWidget;
-   int selectedMenuItem = 0; 
-   late SecondRowContent horizontalMenu;
+  int selectedMenuItem = 0;
+  late SecondRowContent horizontalMenu;
 
-   @override
+  @override
   void initState() {
     super.initState();
-    currentWidget = KYCDetailsMain(formSaveCallback: handleFormSave,); 
+    currentWidget = KYCDetailsMain(
+      formSaveCallback: handleFormSave,
+    );
 
-horizontalMenu = SecondRowContent(
+    horizontalMenu = SecondRowContent(
       onContentSelected: (selectedContent) {
         onContentChange(selectedContent);
       },
       incrementIndexCallback: incrementHorizontalMenuIndex,
     );
-
   }
 
-
-void handleFormSave() {
+  void handleFormSave() {
     horizontalMenu.updateSelectedIndex(() {
-          // Callback function to update the selected index in horizontal menu
-        });
+      // Callback function to update the selected index in horizontal menu
+    });
   }
 
-void incrementHorizontalMenuIndex() {
+  void incrementHorizontalMenuIndex() {
     debugPrint('Reached call in incrementIndexCallback');
     // Perform actions related to incrementing index in horizontalMenu here
   }
@@ -59,10 +58,12 @@ void incrementHorizontalMenuIndex() {
       selectedContent = content;
       switch (selectedContent) {
         case 'KYC Details':
-          currentWidget = KYCDetailsMain(formSaveCallback: handleFormSave,); 
+          currentWidget = KYCDetailsMain(
+            formSaveCallback: handleFormSave,
+          );
           break;
         case 'Personal Details':
-          currentWidget =  PersonalDetails();
+          currentWidget = const PersonalDetails();
           break;
         case 'Family Details':
           currentWidget = const FamilyDetails();
@@ -74,7 +75,7 @@ void incrementHorizontalMenuIndex() {
           currentWidget = const BusinessDetails();
           break;
         case 'Address Details':
-          currentWidget = AddressDetails();
+          currentWidget = const AddressDetails();
           break;
         case 'Property Details':
           currentWidget = const PropertyDetails();
@@ -89,13 +90,13 @@ void incrementHorizontalMenuIndex() {
           currentWidget = const UploadDocument();
           break;
         default:
-          currentWidget = KYCDetailsMain(formSaveCallback: handleFormSave,); 
+          currentWidget = KYCDetailsMain(
+            formSaveCallback: handleFormSave,
+          );
           break;
       }
     });
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -109,20 +110,17 @@ void incrementHorizontalMenuIndex() {
               onContentSelected: (selectedContent) {
                 onContentChange(selectedContent);
               },
-             
               incrementIndexCallback: () {
                 debugPrint('Reached call in incrementIndexCallback');
-                 horizontalMenu.updateSelectedIndex(() {
-          // Callback function to update the selected index in horizontal menu
-        });
-                },
+                horizontalMenu.updateSelectedIndex(() {
+                  // Callback function to update the selected index in horizontal menu
+                });
+              },
             ),
             Expanded(
               child: Stack(
                 children: [
-                  Center(
-                    child: currentWidget
-                  ),
+                  Center(child: currentWidget),
                 ],
               ),
             ),
@@ -132,8 +130,6 @@ void incrementHorizontalMenuIndex() {
     );
   }
 }
-
-
 
 void main() {
   runApp(const LandingPage());

@@ -8,7 +8,12 @@ class UploadPhotoField extends StatefulWidget {
   final TextEditingController? textEditingController;
   final String? selectedImagePath;
 
-  const UploadPhotoField({Key? key, this.textEditingController, this.isMandatory = true, this.selectedImagePath = '',}) : super(key: key);
+  const UploadPhotoField({
+    Key? key,
+    this.textEditingController,
+    this.isMandatory = true,
+    this.selectedImagePath = '',
+  }) : super(key: key);
 
   @override
   _UploadPhotoFieldState createState() => _UploadPhotoFieldState();
@@ -21,17 +26,19 @@ class _UploadPhotoFieldState extends State<UploadPhotoField> {
   void initState() {
     super.initState();
 
-    if (widget.selectedImagePath != null && widget.selectedImagePath!.isNotEmpty) {
+    if (widget.selectedImagePath != null &&
+        widget.selectedImagePath!.isNotEmpty) {
       _selectedImage = XFile(widget.selectedImagePath!);
     }
   }
 
   Future<void> _choosePhoto() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage =
+        await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _selectedImage = pickedImage;
-       if (pickedImage != null && widget.textEditingController != null) {
+      if (pickedImage != null && widget.textEditingController != null) {
         widget.textEditingController!.text = pickedImage.path;
       }
     });
@@ -47,15 +54,16 @@ class _UploadPhotoFieldState extends State<UploadPhotoField> {
   }
 
   void _editPhoto() async {
-  final ImagePicker _picker = ImagePicker();
-  final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-  setState(() {
-    _selectedImage = pickedImage;
-    if (pickedImage != null && widget.textEditingController != null) {
-      widget.textEditingController!.text = pickedImage.path;
-    }
-  });
-}
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage =
+        await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _selectedImage = pickedImage;
+      if (pickedImage != null && widget.textEditingController != null) {
+        widget.textEditingController!.text = pickedImage.path;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +74,13 @@ class _UploadPhotoFieldState extends State<UploadPhotoField> {
         children: [
           Row(
             children: [
-              Text(
+              const Text(
                 'Upload Photo',
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-               if (widget.isMandatory)
+              if (widget.isMandatory)
                 const Padding(
                   padding: EdgeInsets.only(left: 4.0),
                   child: Text(
@@ -98,31 +106,32 @@ class _UploadPhotoFieldState extends State<UploadPhotoField> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0), // Add padding here
+                          padding:
+                              const EdgeInsets.all(8.0), // Add padding here
                           child: Image.file(
                             File(_selectedImage!.path),
                             fit: BoxFit.cover,
                             width: double.infinity,
-                          height: 250,
+                            height: 250,
                           ),
                         ),
                       ),
                       // Add edit and delete icons here if an image is selected
                       IconButton(
                         onPressed: _editPhoto,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit_outlined,
                           color: AppColors.primaryColor,
                           size: 30,
-                          ),
+                        ),
                       ),
                       IconButton(
                         onPressed: _deletePhoto,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.delete_outline,
                           color: Colors.red,
                           size: 30,
-                          ),
+                        ),
                       ),
                     ],
                   )
@@ -133,14 +142,15 @@ class _UploadPhotoFieldState extends State<UploadPhotoField> {
                         onPressed: _choosePhoto,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          side: const BorderSide(width: 2.0, color: AppColors.primaryColor),
+                          side: const BorderSide(
+                              width: 2.0, color: AppColors.primaryColor),
                         ),
                         child: const Text(
                           'Choose Photo',
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
-                            ),
+                          ),
                         ),
                       ),
                       const Expanded(
@@ -150,7 +160,7 @@ class _UploadPhotoFieldState extends State<UploadPhotoField> {
                         ),
                       ),
                       // this camera icon suppose to be out of decoration box
-                      Icon(
+                      const Icon(
                         Icons.camera_alt_rounded,
                         color: AppColors.primaryColor,
                       ),

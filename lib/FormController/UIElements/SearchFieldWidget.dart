@@ -28,14 +28,14 @@ class SearchFieldWidget extends StatelessWidget {
             children: [
               Container(
                 width: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     bottomLeft: Radius.circular(20.0),
                   ),
                   color: Colors.white,
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(
                     Icons.search,
                     color: AppColors.primaryColor,
@@ -47,7 +47,7 @@ class SearchFieldWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: TextField(
                     controller: controller,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search',
                       border: InputBorder.none,
                     ),
@@ -57,7 +57,8 @@ class SearchFieldWidget extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 10), // Adjust the space between the text field and button
+        const SizedBox(
+            height: 10), // Adjust the space between the text field and button
         SizedBox(
           height: 50,
           width: 60,
@@ -68,14 +69,13 @@ class SearchFieldWidget extends StatelessWidget {
               onPressed(); // Call the provided onPressed callback
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.transparent,
-              backgroundColor: Colors.white,
-              side: BorderSide(color: AppColors.primaryColor),
+              backgroundColor: Colors.transparent,
+              side: const BorderSide(color: AppColors.primaryColor),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
             ),
-            child: Text(
+            child: const Text(
               'Search',
               style: TextStyle(
                 color: AppColors.primaryColor,

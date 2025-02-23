@@ -12,13 +12,14 @@ class UploadDocumentField extends StatefulWidget {
   final File? _selectedFile;
 
   const UploadDocumentField({
-    Key? key, 
-    this.textEditingController, 
-    this.isMandatory = true, 
+    Key? key,
+    this.textEditingController,
+    this.isMandatory = true,
     this.selectedFile,
     this.onDeleteFile,
     this.onChooseFile,
-    }) : _selectedFile = selectedFile, super(key: key);
+  })  : _selectedFile = selectedFile,
+        super(key: key);
 
   @override
   _UploadDocumentFieldState createState() => _UploadDocumentFieldState();
@@ -30,7 +31,8 @@ class _UploadDocumentFieldState extends State<UploadDocumentField> {
   @override
   void initState() {
     super.initState();
-    _selectedFile = widget._selectedFile; // Assign the _selectedFile with the value from the widget
+    _selectedFile = widget
+        ._selectedFile; // Assign the _selectedFile with the value from the widget
   }
 
   Future<void> _chooseFile() async {
@@ -43,7 +45,7 @@ class _UploadDocumentFieldState extends State<UploadDocumentField> {
       setState(() {
         _selectedFile = File(result.files.single.path!);
         if (_selectedFile != null && widget.textEditingController != null) {
-        widget.textEditingController!.text = _selectedFile!.path; 
+          widget.textEditingController!.text = _selectedFile!.path;
         }
       });
     }
@@ -67,18 +69,18 @@ class _UploadDocumentFieldState extends State<UploadDocumentField> {
         children: [
           Row(
             children: [
-              Text(
+              const Text(
                 'Upload KYC',
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               if (widget.isMandatory)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 4.0),
                   child: Text(
                     '*', // Red asterisk to indicate mandatory field
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.bold,
                     ),
@@ -105,7 +107,9 @@ class _UploadDocumentFieldState extends State<UploadDocumentField> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            _selectedFile!.path.split('/').last, // Display file name
+                            _selectedFile!.path
+                                .split('/')
+                                .last, // Display file name
                             style: const TextStyle(fontSize: 16.0),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -128,14 +132,15 @@ class _UploadDocumentFieldState extends State<UploadDocumentField> {
                         onPressed: _chooseFile,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          side: const BorderSide(width: 2.0, color: AppColors.primaryColor),
+                          side: const BorderSide(
+                              width: 2.0, color: AppColors.primaryColor),
                         ),
                         child: const Text(
                           'Choose Document',
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
-                            ),
+                          ),
                         ),
                       ),
                       const Expanded(
@@ -148,13 +153,10 @@ class _UploadDocumentFieldState extends State<UploadDocumentField> {
                         Icons.description_rounded,
                         color: AppColors.primaryColor,
                       ),
-                      
                     ],
-                    
                   ),
-                  
           ),
-         /* SizedBox(height: 8,),
+          /* SizedBox(height: 8,),
            // Below consition suppose to execute when click on save button
                     if (_selectedFile == null )
                       Padding(

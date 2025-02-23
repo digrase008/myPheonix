@@ -52,15 +52,18 @@ class _HeaderCollapseState extends State<HeaderCollapse> {
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryColor,
-                    decoration: isCollapsed ? TextDecoration.none : TextDecoration.underline,
+                    decoration: isCollapsed
+                        ? TextDecoration.none
+                        : TextDecoration.underline,
                   ),
                 ),
                 if (widget.showClearAllButton)
                   TextButton(
                     onPressed: widget.onClearAll,
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(AppColors.primaryColor),
-                      side: MaterialStateProperty.all(
+                      foregroundColor:
+                          WidgetStateProperty.all(AppColors.primaryColor),
+                      side: WidgetStateProperty.all(
                         const BorderSide(
                           width: 1.0,
                           color: AppColors.primaryColor,
@@ -95,5 +98,3 @@ class _HeaderCollapseState extends State<HeaderCollapse> {
     );
   }
 }
-
-

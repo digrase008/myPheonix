@@ -31,11 +31,11 @@ class FloatingFooterView extends StatelessWidget {
               child: TextButton(
                 onPressed: onBackButtonPressed,
                 style: ButtonStyle(
-                  side: MaterialStateProperty.all(
+                  side: WidgetStateProperty.all(
                     const BorderSide(
-                      width: 1.0,
-                      color: Colors.white // AppColors.primaryColor,
-                    ),
+                        width: 1.0,
+                        color: Colors.white // AppColors.primaryColor,
+                        ),
                   ),
                 ),
                 child: const Padding(

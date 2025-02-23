@@ -36,8 +36,9 @@ class KYCDetailsHeader extends StatelessWidget {
                       // Implement clear all button action
                     },
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(AppColors.primaryColor),
-                      side: MaterialStateProperty.all(
+                      foregroundColor:
+                          WidgetStateProperty.all(AppColors.primaryColor),
+                      side: WidgetStateProperty.all(
                         const BorderSide(
                           width: 1.0,
                           color: AppColors.primaryColor,
@@ -76,11 +77,11 @@ class KYCDetailsHeader extends StatelessWidget {
           Container(
             height: 1.0,
             color: Colors.grey, // Adjust color as needed
-            margin: const EdgeInsets.symmetric(vertical: 8.0), // Add margin to space the line
+            margin: const EdgeInsets.symmetric(
+                vertical: 8.0), // Add margin to space the line
           ),
         ],
       ),
     );
   }
 }
-

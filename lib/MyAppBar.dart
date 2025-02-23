@@ -33,7 +33,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontSize: 14,
             ),
           ),
-           PopupMenuButton(
+          PopupMenuButton(
             icon: const Icon(
               Icons.menu,
               color: Colors.black,
@@ -62,29 +62,28 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-void _logout(BuildContext context) {
+  void _logout(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => const LoginForm(), // Navigate to login page
+        builder: (BuildContext context) =>
+            const LoginForm(), // Navigate to login page
       ),
       (route) => false, // Clear all existing routes
     );
   }
 
   void _clearData(BuildContext context) async {
-      try {
-    DatabaseHelper helper = DatabaseHelper.instance;
-    await helper.clearAllTables();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('All data cleared successfully.'),
-      ),
-    );
-  } catch (e) {
-    print('Error while clearing data: $e');
+    try {
+      DatabaseHelper helper = DatabaseHelper.instance;
+      await helper.clearAllTables();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All data cleared successfully.'),
+        ),
+      );
+    } catch (e) {
+      print('Error while clearing data: $e');
+    }
   }
-  }
-
-
 }

@@ -12,11 +12,10 @@ import 'package:sqflite/sqlite_api.dart';
 import '../../Utility/AppColor.dart';
 import '../FloatingFooterView.dart';
 
-
-
 class KYCDetailsMain extends StatefulWidget {
   final VoidCallback formSaveCallback;
-  KYCDetailsMain({Key? key, required this.formSaveCallback}) : super(key: key);
+  const KYCDetailsMain({Key? key, required this.formSaveCallback})
+      : super(key: key);
   @override
   _KYCDetailsMainState createState() => _KYCDetailsMainState();
 }
@@ -30,12 +29,10 @@ class _KYCDetailsMainState extends State<KYCDetailsMain> {
   final TextEditingController _documentPathController = TextEditingController();
 
   final List<TextEditingController> _kycTypeControllers = [];
-final List<TextEditingController> _kycIDControllers = [];
-final List<TextEditingController> _documentPathControllers = [];
+  final List<TextEditingController> _kycIDControllers = [];
+  final List<TextEditingController> _documentPathControllers = [];
 
-
-
-@override
+  @override
   void initState() {
     super.initState();
     _loadFormDataForClient(CustomerIDStorage.customerID ?? '');
@@ -45,67 +42,64 @@ final List<TextEditingController> _documentPathControllers = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    backgroundColor: AppColors.appGreyColor,
-    body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Form(
-          // key: _formKey,
-          child: Column(
-            children: [
-              // KYCExitingCustomerView(),
-              // const SizedBox(height: 10),
-              CollapsibleSection(
-                title: 'KYC DETAILS',
-                content: Column(
-                  children: [
-                    const SizedBox(height: 2),
-                        buildFormField('CKYC Number', _ckycNoController),
-                        const SizedBox(height: 5),
-                        _buildUnderline(),
-                        const SizedBox(height: 5),
-                        // default add more KYC form needs here
-                        Column(
-                        children:  _additionalKYCForms,
+      backgroundColor: AppColors.appGreyColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Form(
+            // key: _formKey,
+            child: Column(
+              children: [
+                // KYCExitingCustomerView(),
+                // const SizedBox(height: 10),
+                CollapsibleSection(
+                  title: 'KYC DETAILS',
+                  content: Column(
+                    children: [
+                      const SizedBox(height: 2),
+                      buildFormField('CKYC Number', _ckycNoController),
+                      const SizedBox(height: 5),
+                      _buildUnderline(),
+                      const SizedBox(height: 5),
+                      // default add more KYC form needs here
+                      Column(
+                        children: _additionalKYCForms,
                       ),
-                        const SizedBox(height: 10),
-                        _buildAddMoreButton(),
-                  ],
+                      const SizedBox(height: 10),
+                      _buildAddMoreButton(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ),
-    bottomNavigationBar: FloatingFooterView(
-      onBackButtonPressed: () {
-      },
-      onSaveButtonPressed: () {
-        saveFormData();
-      },
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-  );
+      bottomNavigationBar: FloatingFooterView(
+        onBackButtonPressed: () {},
+        onSaveButtonPressed: () {
+          saveFormData();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
-
 
   // Method to collect and print form data
   void saveFormData() {
     saveKYCDataToSQLite();
     widget.formSaveCallback();
-}
-
+  }
 
   Future<void> saveKYCDataToSQLite() async {
-  Database db = await DatabaseHelper.instance.database;
+    Database db = await DatabaseHelper.instance.database;
 
-  // Get CKYC number
-  String ckycNumber = _ckycNoController.text;
-  CustomerIDStorage.setCKYCIDToSave(ckycNumber);
+    // Get CKYC number
+    String ckycNumber = _ckycNoController.text;
+    CustomerIDStorage.setCKYCIDToSave(ckycNumber);
 
-  for (int i = 0; i < _kycTypeControllers.length; i++) {
-    await db.insert(
+    for (int i = 0; i < _kycTypeControllers.length; i++) {
+      await db.insert(
         'KYCData',
         {
           'CustomerID': CustomerIDStorage.customerID ?? '',
@@ -116,117 +110,114 @@ final List<TextEditingController> _documentPathControllers = [];
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+    }
+    showSuccessAlert(context);
   }
-  showSuccessAlert(context);
-}
 
-void showSuccessAlert(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Success'),
-        content: Text('KYC details saved successfully!'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-void _loadFormDataForClient(String clientId) async {
-  List<Map<String, dynamic>> kycData = await getKYCDataForClient(clientId);
-  print('_loadFormDataForClient: $kycData');
-if(kycData.length > 0) {
- // Clear existing data structures or initialize them as needed
-  _kycTypeControllers.clear();
-  _kycIDControllers.clear();
-  _documentPathControllers.clear();
-  _additionalKYCForms.clear();
-
-  // for (var data in kycData) {
-    for (int i = 0; i < kycData.length; i++) {
-      var data = kycData[i];
-    TextEditingController kycTypeController = TextEditingController(text: data['kycType']);
-    TextEditingController kycIDController = TextEditingController(text: data['kycID']);
-    TextEditingController documentPathController = TextEditingController(text: data['documentPath']);
-
-    _ckycNoController.text =  data['ckycNumber'];
-    _kycTypeControllers.add(kycTypeController);
-    _kycIDControllers.add(kycIDController);
-    _documentPathControllers.add(documentPathController);
-    _additionalKYCForms.add(_buildAddMoreForm(i, data['documentPath']));
-
+  void showSuccessAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Success'),
+          content: const Text('KYC details saved successfully!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
-} else {
-  _handleAddMoreClick(); // No saved data, add one default form
-}
- 
-}
 
+  void _loadFormDataForClient(String clientId) async {
+    List<Map<String, dynamic>> kycData = await getKYCDataForClient(clientId);
+    print('_loadFormDataForClient: $kycData');
+    if (kycData.isNotEmpty) {
+      // Clear existing data structures or initialize them as needed
+      _kycTypeControllers.clear();
+      _kycIDControllers.clear();
+      _documentPathControllers.clear();
+      _additionalKYCForms.clear();
 
-Future<List<Map<String, dynamic>>> getKYCDataForClient(String clientId) async {
-  Database db = await DatabaseHelper.instance.database;
+      // for (var data in kycData) {
+      for (int i = 0; i < kycData.length; i++) {
+        var data = kycData[i];
+        TextEditingController kycTypeController =
+            TextEditingController(text: data['kycType']);
+        TextEditingController kycIDController =
+            TextEditingController(text: data['kycID']);
+        TextEditingController documentPathController =
+            TextEditingController(text: data['documentPath']);
 
-  return await db.query(
-    'KYCData',
-    where: 'CustomerID = ?',
-    whereArgs: [clientId],
-  );
-}
+        _ckycNoController.text = data['ckycNumber'];
+        _kycTypeControllers.add(kycTypeController);
+        _kycIDControllers.add(kycIDController);
+        _documentPathControllers.add(documentPathController);
+        _additionalKYCForms.add(_buildAddMoreForm(i, data['documentPath']));
+      }
+    } else {
+      _handleAddMoreClick(); // No saved data, add one default form
+    }
+  }
 
+  Future<List<Map<String, dynamic>>> getKYCDataForClient(
+      String clientId) async {
+    Database db = await DatabaseHelper.instance.database;
 
-void clearAllFields() {
+    return await db.query(
+      'KYCData',
+      where: 'CustomerID = ?',
+      whereArgs: [clientId],
+    );
+  }
+
+  void clearAllFields() {
     _ckycNoController.clear();
     _kycTypeController.clear();
     _kycIDController.clear();
     _documentPathController.clear();
-}
+  }
 
-
-Widget _buildAddMoreButton() {
-  return TextButton(
-    onPressed: () {
-      _handleAddMoreClick();
-    },
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Icon(
-          Icons.add_rounded,
-          color: AppColors.primaryColor,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          'Add More KYC',
-          style: TextStyle(
+  Widget _buildAddMoreButton() {
+    return TextButton(
+      onPressed: () {
+        _handleAddMoreClick();
+      },
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.add_rounded,
             color: AppColors.primaryColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
           ),
-        ),
-      ],
-    ),
-  );
-}
+          SizedBox(width: 8),
+          Text(
+            'Add More KYC',
+            style: TextStyle(
+              color: AppColors.primaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-void _handleAddMoreClick() {
-  
-   setState(() {
-    int newIndex = _additionalKYCForms.length;
-    _kycTypeControllers.add(TextEditingController());
-    _kycIDControllers.add(TextEditingController());
-    _documentPathControllers.add(TextEditingController());
-    _additionalKYCForms.add(_buildAddMoreForm(newIndex, ''));
+  void _handleAddMoreClick() {
+    setState(() {
+      int newIndex = _additionalKYCForms.length;
+      _kycTypeControllers.add(TextEditingController());
+      _kycIDControllers.add(TextEditingController());
+      _documentPathControllers.add(TextEditingController());
+      _additionalKYCForms.add(_buildAddMoreForm(newIndex, ''));
     });
-}
-
+  }
 
   Widget _buildUnderline() {
     return Container(
@@ -235,35 +226,38 @@ void _handleAddMoreClick() {
     );
   }
 
-Widget _buildAddMoreForm(int index, String? storedDocumentPath) {
-  File? selectedFile = (storedDocumentPath != null && storedDocumentPath.isNotEmpty) ? File(storedDocumentPath) : null;
+  Widget _buildAddMoreForm(int index, String? storedDocumentPath) {
+    File? selectedFile =
+        (storedDocumentPath != null && storedDocumentPath.isNotEmpty)
+            ? File(storedDocumentPath)
+            : null;
 
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-      buildDropdownField(
-        'KYC Type',
-        ['PAN Card', 'Aadhar Card'],
-        _kycTypeControllers[index],
-      ),
-      const SizedBox(height: 10),
-      UploadDocumentField(
-        textEditingController: _documentPathControllers[index],
-        selectedFile: selectedFile,
-        onDeleteFile: () {
-          _deleteFile(index);
-        },
-        onChooseFile: () async {
-          await _chooseFile(index);
-        },
-      ),
-      const SizedBox(height: 10),
-      buildFormField('KYC ID No.', _kycIDControllers[index]),
-      const SizedBox(height: 10),
-      _buildUnderline(),
-    ],
-  );
-}
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        buildDropdownField(
+          'KYC Type',
+          ['PAN Card', 'Aadhar Card'],
+          _kycTypeControllers[index],
+        ),
+        const SizedBox(height: 10),
+        UploadDocumentField(
+          textEditingController: _documentPathControllers[index],
+          selectedFile: selectedFile,
+          onDeleteFile: () {
+            _deleteFile(index);
+          },
+          onChooseFile: () async {
+            await _chooseFile(index);
+          },
+        ),
+        const SizedBox(height: 10),
+        buildFormField('KYC ID No.', _kycIDControllers[index]),
+        const SizedBox(height: 10),
+        _buildUnderline(),
+      ],
+    );
+  }
 
 // Define the _deleteFile method to handle file deletion
   void _deleteFile(int index) {
@@ -282,11 +276,10 @@ Widget _buildAddMoreForm(int index, String? storedDocumentPath) {
 
     if (result != null) {
       setState(() {
-        _documentPathControllers[index].text = File(result.files.single.path!).path;
+        _documentPathControllers[index].text =
+            File(result.files.single.path!).path;
         // Additional operations if needed after file selection
       });
     }
   }
- 
 }
-

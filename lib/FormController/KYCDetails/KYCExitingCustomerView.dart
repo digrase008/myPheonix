@@ -3,11 +3,14 @@ import 'package:my_pheonix/FormController/UIElements/SearchFieldWidget.dart';
 import 'package:my_pheonix/Utility/AppColor.dart';
 import 'package:my_pheonix/FormController/UIElements/BulletSelectionWidget.dart';
 
-
 class KYCExitingCustomerView extends StatelessWidget {
   final Function(String) onCustomerSelection;
   final Function(String) onCustomerSearch;
- KYCExitingCustomerView({Key? key, required this.onCustomerSelection, required this.onCustomerSearch}) : super(key: key);
+  const KYCExitingCustomerView(
+      {Key? key,
+      required this.onCustomerSelection,
+      required this.onCustomerSearch})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class KYCExitingCustomerView extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
     List<String> options = ['New', 'Existing'];
 
-void handleSelection(String selectedOption) {
+    void handleSelection(String selectedOption) {
       // This function will receive the selected option ("New" or "Existing")
       onCustomerSelection(selectedOption);
       // If customer if existing show search field with search button or else don't shoe search field
@@ -44,23 +47,24 @@ void handleSelection(String selectedOption) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 20),
-               BulletSelectionWidget(
-        question: 'New or Existing Customer?',
-        options: options,
-        selectionController: selectionController,
-        onSelection: handleSelection, // Use the provided callback here
-      ),
+                const SizedBox(height: 20),
+                BulletSelectionWidget(
+                  question: 'New or Existing Customer?',
+                  options: options,
+                  selectionController: selectionController,
+                  onSelection:
+                      handleSelection, // Use the provided callback here
+                ),
                 const SizedBox(height: 20),
                 SearchFieldWidget(
-            controller: searchController, // Pass your controller here
-            onPressed: () {
-              // Logic for search button
-              String searchText = searchController.text;
-              onCustomerSearch(searchText);
-            },
-          ),
-          SizedBox(height: 20),
+                  controller: searchController, // Pass your controller here
+                  onPressed: () {
+                    // Logic for search button
+                    String searchText = searchController.text;
+                    onCustomerSearch(searchText);
+                  },
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

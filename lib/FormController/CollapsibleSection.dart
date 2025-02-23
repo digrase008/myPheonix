@@ -6,6 +6,7 @@ class CollapsibleSection extends StatefulWidget {
   final Widget content;
 
   const CollapsibleSection({
+    super.key,
     required this.title,
     required this.content,
   });
