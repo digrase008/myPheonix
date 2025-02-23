@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_pheonix/Utility/AppColor.dart';
-import 'package:my_pheonix/Utility/DatabaseHelper.dart';
-import 'package:my_pheonix/login.dart';
+import 'package:my_pheonix/custom_dropdown_button.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});
@@ -12,7 +10,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF072F88),
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -20,63 +18,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: const Icon(
               Icons.menu,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               // Implement action for the home button here
             },
           ),
-          PopupMenuButton(
-            icon: const Icon(
-              Icons.home,
-              color: Colors.black,
-            ),
-            onSelected: (value) {
-              if (value == 'logout') {
-                _logout(context);
-              } else if (value == 'clearData') {
-                _clearData(context);
-              }
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(
-                value: 'logout',
-                child: Text('Logout'),
-              ),
-              const PopupMenuItem(
-                value: 'clearData',
-                child: Text('Clear All Data'),
-              ),
-            ],
-          ),
+          const CustomDropdownButton(),
         ],
       ),
       centerTitle: true,
     );
-  }
-
-  void _logout(BuildContext context) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) =>
-            const LoginForm(), // Navigate to login page
-      ),
-      (route) => false, // Clear all existing routes
-    );
-  }
-
-  void _clearData(BuildContext context) async {
-    try {
-      DatabaseHelper helper = DatabaseHelper.instance;
-      await helper.clearAllTables();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('All data cleared successfully.'),
-        ),
-      );
-    } catch (e) {
-      print('Error while clearing data: $e');
-    }
   }
 }
