@@ -19,23 +19,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           IconButton(
             icon: const Icon(
-              Icons.home_filled,
+              Icons.menu,
               color: Colors.black,
             ),
             onPressed: () {
               // Implement action for the home button here
             },
           ),
-          const Text(
-            'Fri, 21 Apr 8:10AM',
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 14,
-            ),
-          ),
           PopupMenuButton(
             icon: const Icon(
-              Icons.menu,
+              Icons.home,
               color: Colors.black,
             ),
             onSelected: (value) {
